@@ -152,16 +152,16 @@ else {
         }
         function redefinedSelector(selectorText, targetId) {
             if (selectorText.indexOf("#") == 0)         //start with '#':skip
-                return selectorText;
+                return selectorText
             else if (selectorText.indexOf(".") == 0)    //start with '.':add prefix 
-                return addPrefix(selectorText,targetId);              
+                return selectorText        
             else if (selectorText.indexOf("*") == 0)    //start with '*':#targetId * , #targetId
                 return selectorText.replace("#" + targetId + " *,#" + targetId);
             else
                 return addPrefix(selectorText,targetId); //others
 
             //ID selectors(#)           : skip
-            //Class selectors(.)        : add #targetId    
+            //Class selectors(.)        : skip    
             //Type selectors(html tag)  : add #targetId
             //Universal selector(*)     : #targetId * , #targetId
             // ---- others ---------------------------------------------
