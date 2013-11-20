@@ -151,9 +151,9 @@ else {
             return "#" + targetId + " " + selectorText;
         }
         function redefinedSelector(selectorText, targetId) {
-            if (selectorText.indexOf("#") == 0)         //start with '#':skip
+            if (selectorText.indexOf("#") != -1)         //start with '#':skip
                 return selectorText
-            else if (selectorText.indexOf(".") == 0)    //start with '.':add prefix 
+            else if (selectorText.indexOf(".") != -1)    //start with '.':add prefix 
                 return selectorText        
             else if (selectorText.indexOf("*") == 0)    //start with '*':#targetId * , #targetId
                 return selectorText.replace("#" + targetId + " *,#" + targetId);
