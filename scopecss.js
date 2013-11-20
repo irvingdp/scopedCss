@@ -59,7 +59,11 @@ else {
                     var currentSheet = sheets[i];
                     var currentSheetOwnerNode = getSheetOwnerNode(currentSheet);
 
-                    if (currentSheetOwnerNode && currentSheetOwnerNode.parentElement && currentSheetOwnerNode.parentElement.id == targetId) {
+                    if (currentSheetOwnerNode && 
+                        currentSheetOwnerNode.parentElement && 
+                        currentSheetOwnerNode.parentElement.id == targetId && 
+                        getCssRule(currentSheet)
+                        ) {
                         for (var j = 0; j < getCssRule(currentSheet).length; j++) {
                             var currentCssText = popBadCssRule(currentSheet, getCssRule(currentSheet)[j], targetId, j)
                             if (currentCssText) {
@@ -142,16 +146,31 @@ else {
             }
             return result;
         }
-
+        function addPrefix(selectorText,targetId)
+        {
+            return "#" + targetId + " " + selectorText;
+        }
         function redefinedSelector(selectorText, targetId) {
-            if (selectorText.indexOf(".") == 0)
-                return selectorText; //skip Class selectors
-            else if (selectorText.indexOf("#") == 0)
-                return selectorText; //skip  ID selectors
-            else if (selectorText.indexOf("*") == 0)
-                return selectorText.replace("#" + targetId + "*,#" + targetId); //Universal selector   
+            if (selectorText.indexOf("#") == 0)         //start with '#':skip
+                return selectorText;
+            else if (selectorText.indexOf(".") == 0)    //start with '.':add prefix 
+                return addPrefix(selectorText,targetId);              
+            else if (selectorText.indexOf("*") == 0)    //start with '*':#targetId * , #targetId
+                return selectorText.replace("#" + targetId + " *,#" + targetId);
             else
-                return "#" + targetId + " " + selectorText;
+                return addPrefix(selectorText,targetId); //others
+
+            //ID selectors(#)           : skip
+            //Class selectors(.)        : add #targetId    
+            //Type selectors(html tag)  : add #targetId
+            //Universal selector(*)     : #targetId * , #targetId
+            // ---- others ---------------------------------------------
+            //Attribute selectors(div[title=xx])
+            //Child combinator(E>F)
+            //Adjacent sibling combinator(E+F)
+            //General sibling combinator(E~F)
+            //Pseudo-classes(:hover)
+            //Pseudo-elements(:after)
         }
 
         function deleteCssRule(sheet, index) {
