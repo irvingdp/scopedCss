@@ -10,10 +10,10 @@
     <script type="text/javascript">    
         window.onload = function () {
             var isCallService = true;
-            var logServiceURL = '';
+            var logServiceURL = 'http://test.domain/some.ashx';
             var logData = {'url':document.URL};
             var callbackFunction = function(data){};
-            //ScopedCss.SetJsonpCall(true,logServiceURL,logData,callbackFunction); //for monitor purpose. will log that url include bad css
+            ScopedCss.SetJsonpCall(true,logServiceURL,logData,callbackFunction); //for monitor purpose. will log that url include bad css
             ScopedCss.EnableConsoleLog();
             ScopedCss.EnableActivity(); //default is disable. you can add querystring 'scopedcss=true' to enable it ( for test purpose). 
             ScopedCss.ScopeElement('divContent');

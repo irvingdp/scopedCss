@@ -36,26 +36,23 @@ else {
         }
 
         function run(targetId) {
-            var isRun = false;
-            var isQueryString = false;
-            if(queryString('scopedcss') && queryString('scopedcss') == 'true') 
-                isQueryString = true;
-            else
-                isQueryString = false;
+            try {
+                var isRun = false;
+                var isQueryString = false;
+                if (queryString('scopedcss') && queryString('scopedcss') == 'true')
+                    isQueryString = true;
+                else
+                    isQueryString = false;
 
-            if (!_activity && !isQueryString)            
-                isRun = false;
-            else 
-                isRun = true;
+                if (!_activity && !isQueryString)
+                    isRun = false;
+                else
+                    isRun = true;
 
-            if(!isRun)
-            {
-                consoleLog('scopedcss not atcivity');
-                return;
-            }
-            
-            try 
-            {
+                if (!isRun) {
+                    consoleLog('scopedcss not atcivity');
+                    return;
+                }
                 var scopedCssText = '';
                 var sheets = typeof sheet !== 'undefined' ? [sheet] : document.styleSheets;
                 for (var i = 0; i < sheets.length; i++) {
@@ -80,7 +77,13 @@ else {
                     }
                 }
             } catch (err) {
-                consoleLog(err);
+                try {
+                    if (_jsonpCalldata) {
+                        _jsonpCalldata["exception"] = err.toString();
+                        jsonpcall(_jsonpcalledURL, _jsonpCalldata);
+                    }
+                    consoleLog(err.toString());
+                } catch (err2) {}
             }
         }
 
