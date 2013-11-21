@@ -151,11 +151,11 @@ else {
             return "#" + targetId + " " + selectorText;
         }
         function redefinedSelector(selectorText, targetId) {
-            if (selectorText.indexOf("#") != -1)         //start with '#':skip
+            if (selectorText.indexOf("#") != -1)         //include '#' -> skip
                 return selectorText
-            else if (selectorText.indexOf(".") != -1)    //start with '.':add prefix 
+            else if (selectorText.indexOf(".") == 0)    //.class -> skip 
                 return selectorText        
-            else if (selectorText.indexOf("*") == 0)    //start with '*':#targetId * , #targetId
+            else if (selectorText.indexOf("*") == 0)    //start with '*' -> #targetId * , #targetId
                 return selectorText.replace("#" + targetId + " *,#" + targetId);
             else
                 return addPrefix(selectorText,targetId); //others
